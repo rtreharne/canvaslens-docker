@@ -21,13 +21,18 @@ def get_real_assignments(course):
             x.due_at is not None and not x.omit_from_final_grade and x.workflow_state == 'published' and x.has_submitted_submissions]
 
 
-def extract_submission_info(sub, course):
+def get_user_from_enrollment_by_id(user_id, enrollments):
+    for e in enrollments:
+        if e.user_id == user_id:
+            return e.user
+
+
+def extract_submission_info(sub, course, enrollments):
     try:
-        user = sub.user
+        user = get_user_from_enrollment_by_id(sub.user_id, enrollments)
         sis_user_id = user["sis_user_id"]
         info = get_user_id_and_username_from_login(sis_user_id)
-    except AttributeError:
-        print("Couldn't find a user", sub.__dict__)
+    except:
         info = None
 
     if info is not None:
@@ -86,6 +91,7 @@ def get_score(sub, deduction=False):
 def generate_data(courses):
     rows = []
     for course in courses:
+        enrollments = [x for x in course.get_enrollments() if x.type=="StudentEnrollment"]
         assignments = get_real_assignments(course)
         for a in assignments:
             print(a.name)
@@ -93,7 +99,7 @@ def generate_data(courses):
                 submissions = [x for x in a.get_submissions(include=["user", "assignment", "submission_comments"])]
 
                 for sub in submissions:
-                    sub_info = extract_submission_info(sub, course)
+                    sub_info = extract_submission_info(sub, course, enrollments)
                     if sub_info is not None:
                         rows.append(sub_info)
             else:
@@ -104,7 +110,6 @@ def generate_data(courses):
 def get_courses_from_prefix(prefix, term, canvas):
     courses = []
     for i in range(100, 1000):
-        print(i)
         try:
             course = canvas.get_course("{}{}-{}".format(prefix.upper(), str(i), str(term)), use_sis_id=True)
             courses.append(course)

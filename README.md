@@ -31,11 +31,11 @@ https://statswork.wiki/docker-for-windows/install-windows-home/
 ### Step 3 - Build image and run in container locally
 
 ```bash
-docker-compose app build
+docker-compose build
 ```
 
 ```bash
-docker-compose app up
+docker-compose up
 ```
 To check open up http://127.0.0.1:8000/
 

@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Get started with Canvas Lens</h1>
-    <p class="fs-5 col-md-8">Schedule a new report to consolidate grades from all your Canvas courses immediately.</p>
+    <p class="fs-5 col-md-8">Schedule a new report to consolidate grades from all your Canvas courses.</p>
 
     <div class="mb-5">
       <a href="{% url 'lens:new-report' %}" class="btn btn-primary btn-lg px-4">Schedule New Report</a>
@@ -15,11 +15,9 @@
     <div class="row g-5">
       <div class="col-md-6">
         <h2>Guides</h2>
-        <p>Read more detailed instructions and documentation on using Canvas Lens</p>
+        <p>Read/watch more detailed instructions and documentation on using Canvas Lens</p>
         <ul class="icon-list ps-0">
-          <li class="d-flex align-items-start mb-1"><a href="">Canvas Lens quick start guide</a></li>
-          <li class="d-flex align-items-start mb-1"><a href="">Canvas Lens FAQs</a></li>
-          <li class="d-flex align-items-start mb-1"><a href="">Updating/Deleting scheduled Canvas Lens Reports</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="{% url 'lens:quickstart' %}">Canvas Lens quick start guide</a></li>
         </ul>
       </div>
     </div>

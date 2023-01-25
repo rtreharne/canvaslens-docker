@@ -8,6 +8,12 @@ import json
            
 def index(request):
     return render (request, "lens/index.html")
+    
+
+def quickstart(request):
+    return render(request, "lens/quickstart.html")
+
+
 def new_report_form(request):
     form = TaskForm()
  
