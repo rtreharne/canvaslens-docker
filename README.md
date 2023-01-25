@@ -1,4 +1,4 @@
-# django-docker-compose-deployment
+# canvaslens-docker
 
 This is a template dockerised Django project configured for use with:
 
@@ -20,7 +20,7 @@ If you need to configure your ssh key then read <a href="https://docs.github.com
 
 ### Step 2 - Install Docker
 
-Linux (Ubbuntu 22.04):
+Linux (Ubuntu 22.04):
 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
 
@@ -31,11 +31,11 @@ https://statswork.wiki/docker-for-windows/install-windows-home/
 ### Step 3 - Build image and run in container locally
 
 ```bash
-docker-compose build app
+docker-compose app build
 ```
 
 ```bash
-docker-compose up app
+docker-compose app up
 ```
 To check open up http://127.0.0.1:8000/
 
@@ -59,6 +59,18 @@ Develop your app locally. Your changes should be reflected on your local server
 
 ### Step 6 - Test deployment locally
 
+Recommend purging your local docker environment before doing this.
+
+```bash
+docker system prune -a
+```
+Note: You might need to delete your app migrations. Do this then proceed with the following.
+
+Create your .env file.
+```bash
+cp env.sample .env
+```
+
 ```bash
 docker-compose -f docker-compose-deploy.yml build
 ```
@@ -68,6 +80,13 @@ docker-compose -f docker-compose-deploy.yml run -d --rm app sh -c "celery -A app
 ```bash
 docker-compose -f docker-compose-deploy.yml up
 ```
+
+If you deleted your migrations then,
+```bash
+docker exec -it --user root <app-name> sh
+```
+
+To get the app name: `docker ps`
 
 ### Step 7 - Deploy to AWS EC2
 
@@ -130,7 +149,7 @@ Go to your GitHub repo's Settings/Deploy keys. Create a new deploy key and copy 
 
 Clone the repo using the SSH URL.
 ```bash
-git clone git@github.com:rtreharne/django-docker-compose-deployment.git
+git clone <GitHub Repo SSH URL>
 ```
 
 cd into the project directory.
@@ -142,7 +161,7 @@ cp env.sample .env
 
 vi into the file and set your env parameters. Make sure they're different from those in env.sample. You can generate a Django secret key using https://djecrety.ir/
 
-Make sure you set `ALLOWED_HOSTS` to the IPv4 URL.
+**Make sure you set `ALLOWED_HOSTS` to the IPv4 URL.**
 
 Build and deploy.
 

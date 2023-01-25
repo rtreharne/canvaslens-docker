@@ -1,0 +1,44 @@
+{% extends "lens/base.html" %}
+{%load crispy_forms_tags %}
+
+
+{% block content %}
+
+<style>
+    input, select, textarea {
+        width: 100%;
+        height: 40px;
+        margin-bottom: 20px;
+    }
+    p.help-block {
+        font-size: 0.8em;
+        color: darkslategray;
+    }
+
+</style>
+
+<h1>Get started with Canvas Lens</h1>
+    <p class="fs-5 col-md-8">Schedule a new report to consolidate grades from all your Canvas courses immediately.</p>
+
+    <hr class="col-3 col-md-2 mb-5">
+
+    <div class="row g-5">
+      <div class="col-md-6">
+        <form action="{% url 'lens:new-report' %}", method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Submit">
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h2>Guides</h2>
+        <p>Read more detailed instructions and documentation on using Canvas Lens</p>
+        <ul class="icon-list ps-0">
+          <li class="d-flex align-items-start mb-1"><a href="">Canvas Lens quick start guide</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="">Canvas Lens FAQs</a></li>
+          <li class="d-flex align-items-start mb-1"><a href="">Updating/Deleting scheduled Canvas Lens Reports</a></li>
+        </ul>
+      </div>
+    </div>
+
+{% endblock %}
